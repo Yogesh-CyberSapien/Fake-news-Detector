@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Fake News Detection & Source Verification</h1>
+        <textarea id="news-input" placeholder="Paste the news article or URL here..."></textarea>
+        <button onclick="analyzeNews()">Analyze</button>
+        
+        <div id="result-container">
+            <h2>Results</h2>
+            <p><strong>Credibility Score:</strong> <span id="score">-</span></p>
+            <p><strong>Source Reliability:</strong> <span id="source-reliability">-</span></p>
+            <p><strong>Language Analysis:</strong> <span id="language-analysis">-</span></p>
+            <p><strong>Fact Check Results:</strong> <span id="fact-check">-</span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html><ALOASK-SEPARATE-EDITORS>body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+input, textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+button {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+}
+<ALOASK-SEPARATE-EDITORS>async function analyzeNews() {
+    let sourceUrl = document.getElementById("sourceInput").value.trim();
+    let newsText = document.getElementById("newsInput").value.trim();
+    let resultDiv = document.getElementById("result");
+
+    if (!newsText && !sourceUrl) {
+        resultDiv.innerHTML = "<p>Please enter a news source or content.</p>";
+        return;
+    }
+
+    resultDiv.innerHTML = "<p>Analyzing...</p>";
+
+    // 1. Source Credibility Check
+    let trustedSources = ["bbc.com", "cnn.com", "reuters.com", "nytimes.com"];
+    let isTrustedSource = trustedSources.some(domain => sourceUrl.includes(domain));
+
+    let credibilityResult = isTrustedSource 
+        ? "<p style='color: green;'>✅ Trusted News Source</p>" 
+        : "<p style='color: red;'>⚠️ Unverified News Source</p>";
+
+    // 2. AI-Based Language Pattern Analysis (Simulated)
+    let suspiciousWords = ["shocking", "you won’t believe", "click here", "exposed", "conspiracy"];
+    let suspiciousFound = suspiciousWords.some(word => newsText.toLowerCase().includes(word));
+
+    let languageResult = suspiciousFound 
+        ? "<p style='color: red;'>⚠️ Suspicious Language Detected</p>" 
+        : "<p style='color: green;'>✅ No Suspicious Language</p>";
+
+    // 3. Cross-Checking Against Fact-Checking APIs
+    let factCheckResponse = await fetch("https://factchecktools.googleapis.com/v1alpha1/claims:search?key=YOUR_GOOGLE_API_KEY");
+    let factCheckData = await factCheckResponse.json();
+
+    let factCheckResult = factCheckData.claims && factCheckData.claims.length > 0
+        ? "<p style='color: red;'>⚠️ Similar Misinformation Found</p>"
+        : "<p style='color: green;'>✅ No Known Misinformation</p>";
+
+    // Display results
+    resultDiv.innerHTML = credibilityResult + languageResult + factCheckResult;
+}
