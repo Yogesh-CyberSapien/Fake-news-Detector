@@ -4,7 +4,7 @@ This project is a **Fake News Detection Tool** designed to identify potential mi
 
 1. **Source Credibility**: It verifies whether the source of the news article is reliable by comparing the input URL with a list of trusted sources.
 
-2.**Source Reliability**:Source reliability is a critical factor in determining the trustworthiness of information. By assessing source reliability, we can make informed decisions about what information to believe and share.
+2. **Source Reliability**:Source reliability is a critical factor in determining the trustworthiness of information. By assessing source reliability, we can make informed decisions about what information to believe and share.
 
 3. **Language Pattern Analysis**: The tool checks for common misleading words or phrases often associated with fake news, such as "exclusive", "shocking", or "unbelievable".
 
