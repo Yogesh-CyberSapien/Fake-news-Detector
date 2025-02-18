@@ -3,8 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fake News Detection Tool</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Fake News Detection & Source Verification</title>
+    <style>
+        /* CSS Styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -21,90 +62,55 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // JavaScript functionality
+        async function analyzeNews() {
+            let newsText = document.getElementById("news-input").value;
+            if (!newsText.trim()) {
+                alert("Please enter a news article or URL.");
+                return;
+            }
+
+            document.getElementById("score").textContent = "Analyzing...";
+            document.getElementById("source-reliability").textContent = "-";
+            document.getElementById("language-analysis").textContent = "-";
+            document.getElementById("fact-check").textContent = "-";
+
+            // Simulating API calls
+            let credibilityScore = Math.floor(Math.random() * 100); // Placeholder for actual NLP analysis
+            let sourceReliability = await checkSource(newsText);
+            let languageAnalysis = analyzeLanguage(newsText);
+            let factCheckResult = await factCheck(newsText);
+
+            document.getElementById("score").textContent = credibilityScore + "%";
+            document.getElementById("source-reliability").textContent = sourceReliability;
+            document.getElementById("language-analysis").textContent = languageAnalysis;
+            document.getElementById("fact-check").textContent = factCheckResult;
+        }
+
+        // Simulated function for source verification
+        async function checkSource(news) {
+            const trustedSources = ["bbc.com", "cnn.com", "reuters.com", "factcheck.org"];
+            let foundSource = trustedSources.find(source => news.includes(source));
+
+            return foundSource ? "Trusted Source" : "Unknown or Unverified Source";
+        }
+
+        // Simulated function for language pattern detection
+        function analyzeLanguage(news) {
+            let sensationalWords = ["shocking", "mind-blowing", "you won’t believe", "fake", "hoax"];
+            let containsSensational = sensationalWords.some(word => news.toLowerCase().includes(word));
+
+            return containsSensational ? "Contains Sensational Language (Potential Misinformation)" : "Language Appears Neutral";
+        }
+
+        // Simulated fact-checking (In real-world use a fact-checking API)
+        async function factCheck(news) {
+            let fakeNewsPhrases = ["5G spreads COVID-19", "The Earth is flat", "Vaccines cause autism"];
+            let foundFake = fakeNewsPhrases.find(phrase => news.toLowerCase().includes(phrase.toLowerCase()));
+
+            return foundFake ? "Fact-Checked: Likely False" : "No known misinformation detected.";
+        }
+    </script>
 </body>
-</html><ALOASK-SEPARATE-EDITORS>body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
-}
-
-.container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-textarea {
-    width: 100%;
-    height: 150px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-#result-container {
-    margin-top: 20px;
-    text-align: left;
-}<ALOASK-SEPARATE-EDITORS>async function analyzeNews() {
-    let newsText = document.getElementById("news-input").value;
-    if (!newsText.trim()) {
-        alert("Please enter a news article or URL.");
-        return;
-    }
-
-    document.getElementById("score").textContent = "Analyzing...";
-    document.getElementById("source-reliability").textContent = "-";
-    document.getElementById("language-analysis").textContent = "-";
-    document.getElementById("fact-check").textContent = "-";
-
-    // Simulating API calls
-    let credibilityScore = Math.floor(Math.random() * 100); // Placeholder for actual NLP analysis
-    let sourceReliability = await checkSource(newsText);
-    let languageAnalysis = analyzeLanguage(newsText);
-    let factCheckResult = await factCheck(newsText);
-
-    document.getElementById("score").textContent = credibilityScore + "%";
-    document.getElementById("source-reliability").textContent = sourceReliability;
-    document.getElementById("language-analysis").textContent = languageAnalysis;
-    document.getElementById("fact-check").textContent = factCheckResult;
-}
-
-// Simulated function for source verification
-async function checkSource(news) {
-    const trustedSources = ["bbc.com", "cnn.com", "reuters.com", "factcheck.org"];
-    let foundSource = trustedSources.find(source => news.includes(source));
-
-    return foundSource ? "Trusted Source" : "Unknown or Unverified Source";
-}
-
-// Simulated function for language pattern detection
-function analyzeLanguage(news) {
-    let sensationalWords = ["shocking", "mind-blowing", "you won’t believe", "fake", "hoax"];
-    let containsSensational = sensationalWords.some(word => news.toLowerCase().includes(word));
-
-    return containsSensational ? "Contains Sensational Language (Potential Misinformation)" : "Language Appears Neutral";
-}
-
-// Simulated fact-checking (In real-world use a fact-checking API)
-async function factCheck(news) {
-    let fakeNewsPhrases = ["5G spreads COVID-19", "The Earth is flat", "Vaccines cause autism"];
-    let foundFake = fakeNewsPhrases.find(phrase => news.toLowerCase().includes(phrase.toLowerCase()));
-
-    return foundFake ? "Fact-Checked: Likely False" : "No known misinformation detected.";
-}
+</html>
